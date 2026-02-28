@@ -1,5 +1,7 @@
 import discord
 from discord.ext import commands
+import requests
+import random
 import cfg
 
 intents = discord.Intents.default()
@@ -39,12 +41,23 @@ async def on_interaction(itr: discord.Interaction):
     
     if data["custom_id"] == f"click_me:{user.id}":
         await itr.response.defer()
-        await itr.followup.edit_message(itr.message.id, view=None)
         await itr.followup.send(f"hi {user.name}")
+        await itr.followup.edit_message(itr.message.id, view=None)
 
 @bot.command()
 async def epstein(ctx:commands.Context):
     with open("images/epstein.jpeg", "rb") as f:
         await ctx.send(file=discord.File(f))
+
+def get_meme():    
+    url = 'https://meme-api.com/gimme'
+    res = requests.get(url)
+    data = res.json()
+    return data['url'], data['title']
+
+@bot.command()
+async def meme(ctx:commands.Context):
+    meme, name = get_meme()
+    await ctx.send(f"{name}\n{meme}")
 
 bot.run(cfg.token)
