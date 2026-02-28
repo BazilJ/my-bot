@@ -60,4 +60,8 @@ async def meme(ctx:commands.Context):
     meme, name = get_meme()
     await ctx.send(f"{name}\n{meme}")
 
+@bot.command()
+async def tempatbuangsampahdekat(ctx):
+    await ctx.send(f'jaraknya 30Km dari rumahmu')
+
 bot.run(cfg.token)
